@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIController : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerDownHandler
+public class UIController : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     public static UIController main;
 
@@ -12,15 +12,15 @@ public class UIController : MonoBehaviour, IDragHandler, IEndDragHandler, IPoint
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        HandController.main.SetTargetPosition(eventData.position);
+        HandController.main.SetTargetPosition(eventData);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        HandController.main.SetTargetPosition(eventData.position);
+        HandController.main.SetTargetPosition(eventData);
     }
     
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData eventData)
     {
         HandController.main.EndTouch(eventData);
     }

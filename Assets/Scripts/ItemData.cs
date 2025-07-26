@@ -4,6 +4,7 @@ using UnityEngine;
 public class ItemData : ScriptableObject
 {
     public string itemName;
+    public Sprite image;
+    public Sprite additionalImage;
     public Sprite icon;
-    public Sprite additionalIcon;
 }

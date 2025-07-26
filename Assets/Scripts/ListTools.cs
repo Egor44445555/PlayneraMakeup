@@ -1,18 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ListTools : MonoBehaviour
 {
     [SerializeField] GameObject prefab;
-    [SerializeField] List<ItemData> items = new List<ItemData>();
+    [SerializeField] string nameList = "";
 
     void Start()
     {
-        
-    }
-    
-    void Update()
-    {
-        
+        foreach (ItemData item in ItemDatabase.main.GetItemsData(nameList))
+        {
+            GameObject newObject = Instantiate(prefab, transform);
+            newObject.GetComponent<Image>().sprite = item.icon;
+        }
     }
 }

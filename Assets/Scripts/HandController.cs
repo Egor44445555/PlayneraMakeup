@@ -14,7 +14,7 @@ public class HandController : MonoBehaviour
     Item targetObject;
     bool isHolding = false;
     bool isMoving = false;
-    Vector3 targetPosition;
+    Vector2 targetPosition;
     Vector2 basedPosition;
     Camera mainCamera;
     Canvas canvas;
@@ -35,9 +35,18 @@ public class HandController : MonoBehaviour
         {
             handRectTransform.anchoredPosition = Vector2.Lerp(handRectTransform.anchoredPosition, targetPosition, moveSpeed * Time.deltaTime);
 
-            if (Vector2.Distance(handRectTransform.anchoredPosition, targetPosition) < grabDistance)
+            if (Vector2.Distance(handRectTransform.anchoredPosition, targetPosition) < 0.1f)
             {
                 isMoving = false;
+            }
+
+            if (targetObject != null && isHolding)
+            {
+                targetObject.GetTransform().position = handRectTransform.position;
+            }
+
+            if (targetObject != null && Vector2.Distance(handRectTransform.position, targetObject.GetTransform().position) < grabDistance && !isHolding)
+            {
                 Grab();
             }
         }
@@ -45,24 +54,29 @@ public class HandController : MonoBehaviour
 
     public void EndTouch(PointerEventData eventData)
     {
-        if (isHolding)
+        Vector3 touchWorldPos = mainCamera.ScreenToWorldPoint(eventData.position);
+    
+        if (isHolding && faceArea.OverlapPoint(touchWorldPos))
         {
-            Vector2 touchWorldPos = mainCamera.ScreenToWorldPoint(eventData.position);
+            ApplyToFace();
+            return;
+        }
 
-            if (faceArea.OverlapPoint(touchWorldPos))
-            {
-                ApplyToFace();
-            }
+        RaycastHit2D hit = Physics2D.Raycast(touchWorldPos, Vector2.zero);
+
+        if (hit.collider != null && hit.collider.TryGetComponent<Item>(out Item item))
+        {
+            targetObject = item;
         }
     }
 
-    public void SetTargetPosition(Vector2 screenPosition)
-    {
+    public void SetTargetPosition(PointerEventData eventData)
+    {        
         if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 handRectTransform.parent as RectTransform,
-                screenPosition,
+                eventData.position,
                 canvas.worldCamera,
                 out Vector2 localPosition
             );
@@ -71,33 +85,23 @@ public class HandController : MonoBehaviour
         }
         else
         {
-            targetPosition = screenPosition;
+            targetPosition = eventData.position;
         }
-        
+
         isMoving = true;
-    }
-
-    public void SetTargetObject(Item item)
-    {
-        targetObject = item;
-    }
-
-    public void StartGrabbing()
-    {
-        if (targetObject != null && !isHolding && !isMoving)
-        {
-            isMoving = true;
-            targetPosition = targetObject.GetTransform().position;
-        }
     }
 
     void Grab()
     {
+        print("Grab");
         isHolding = true;
     }
 
     void ApplyToFace()
     {
+        print("ApplyToFace");
+        targetObject.ReturnPosition();
+        targetObject = null;
         isHolding = false;
     }
 

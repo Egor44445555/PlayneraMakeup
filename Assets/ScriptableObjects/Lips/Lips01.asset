@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Lips01
   m_EditorClassIdentifier: 
   itemName: Lips01
-  icon: {fileID: -7973376512685140356, guid: db3f15f5b6982744187fa2e4b56b4b2d, type: 3}
-  additionalIcon: {fileID: 0}
+  image: {fileID: -7973376512685140356, guid: db3f15f5b6982744187fa2e4b56b4b2d, type: 3}
+  additionalImage: {fileID: 0}
+  icon: {fileID: -7973376512685140356, guid: a41cabbd180fe514b9e973ee8605aad6, type: 3}

@@ -5,15 +5,52 @@ using UnityEngine;
 public class ItemDatabase : MonoBehaviour
 {
     public static ItemDatabase main;
-    public List<ItemData> items = new List<ItemData>();
+    [SerializeField] List<ItemData> Lipstick = new List<ItemData>();
+    [SerializeField] List<ItemData> Blush = new List<ItemData>();
+    [SerializeField] List<ItemData> Colors = new List<ItemData>();
 
     void Awake()
     {
         main = this;
     }
 
-    public ItemData GetItem(string name)
+    public List<ItemData> GetItemsData(string type)
     {
-        return items.Find(item => item.itemName == name);
+        if (type == "Lips")
+        {
+            return Lipstick;
+        }
+        else if (type == "Blush")
+        {
+            return Blush;
+        }
+        else if (type == "Colors")
+        {
+            return Colors;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public ItemData GetItemData(string type, string nameItem)
+    {
+        List<ItemData> array = new List<ItemData>();
+
+        if (type == "Lips")
+        {
+            array = Lipstick;
+        }
+        else if (type == "Blush")
+        {
+            array = Blush;
+        }
+        else if (type == "Colors")
+        {
+            array = Colors;
+        }
+
+        return array.Find(item => item.itemName == nameItem);
     }
 }
