@@ -34,19 +34,19 @@ public class ItemDatabase : MonoBehaviour
         }
     }
 
-    public ItemData GetItemData(string type, string nameItem)
+    public ItemData GetItemData(ItemType type, string nameItem)
     {
         List<ItemData> array = new List<ItemData>();
 
-        if (type == "Lips")
+        if (type == ItemType.Lips)
         {
             array = Lipstick;
         }
-        else if (type == "Blush")
+        else if (type == ItemType.Blush)
         {
             array = Blush;
         }
-        else if (type == "Colors")
+        else if (type == ItemType.Colors)
         {
             array = Colors;
         }

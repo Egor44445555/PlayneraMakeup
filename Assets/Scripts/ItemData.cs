@@ -16,5 +16,6 @@ public enum ItemType
     Lips,
     Blush,
     Shadows,
+    Colors,
     Loofah
 }

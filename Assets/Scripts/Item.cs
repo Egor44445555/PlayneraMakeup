@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
     public ItemType type;
+    public string itemName;
     [SerializeField] float moveSpeed = 8f;
     Vector2 basedanchoredPosition;
     Vector2 basedPosition;

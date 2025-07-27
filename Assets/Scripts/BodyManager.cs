@@ -31,27 +31,39 @@ public class BodyManager : MonoBehaviour
         return faceArea;
     }
 
-    public void ApplyingMakeup(Item data)
+    public void ApplyingMakeup(Item item)
     {
-        if (data.type == ItemType.Cream)
+        if (item.type == ItemType.Cream)
         {
             CreamApply();
         }
 
-        if (data.type == ItemType.Loofah)
+        if (item.type == ItemType.Loofah)
         {
             Clear();
         }
+
+        if (item.type == ItemType.Lips)
+        {
+            SetComponent(item, lipsImage);
+        }
+
+        if (item.type == ItemType.Shadows)
+        {
+            SetComponent(item, shadowsImage);
+        }
+
+         if (item.type == ItemType.Blush)
+        {
+            SetComponent(item, blushImage);
+        }
     }
 
-    public void Clear()
+    void SetComponent(Item item, Image image)
     {
-        lips = "";
-        shadows = "";
-        blush = "";
-        lipsImage.gameObject.SetActive(false);
-        shadowsImage.gameObject.SetActive(false);
-        blushImage.gameObject.SetActive(false);
+        ItemData itemData = ItemDatabase.main.GetItemData(item.type, item.itemName);
+        image.gameObject.SetActive(true);
+        image.sprite = itemData.image;
     }
 
     public void CreamApply()
@@ -72,5 +84,15 @@ public class BodyManager : MonoBehaviour
         }
 
         acneCanvasGroup.alpha = 0f;
+    }
+
+    public void Clear()
+    {
+        lips = "";
+        shadows = "";
+        blush = "";
+        lipsImage.gameObject.SetActive(false);
+        shadowsImage.gameObject.SetActive(false);
+        blushImage.gameObject.SetActive(false);
     }
 }

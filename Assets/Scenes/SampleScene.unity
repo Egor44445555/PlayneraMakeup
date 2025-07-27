@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  itemName: 
   moveSpeed: 8
 --- !u!114 &67242378
 MonoBehaviour:
@@ -1185,7 +1186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &494004008
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2480,6 +2481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
+  itemName: 
   moveSpeed: 8
 --- !u!1 &1189647462
 GameObject:
@@ -2697,6 +2699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  itemName: 
   moveSpeed: 8
 --- !u!1 &1342132951
 GameObject:
@@ -3094,6 +3097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  itemName: 
   moveSpeed: 8
 --- !u!114 &1485405561
 MonoBehaviour:
@@ -3284,7 +3288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1521052195
 RectTransform:
   m_ObjectHideFlags: 0
