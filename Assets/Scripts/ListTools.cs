@@ -13,6 +13,7 @@ public class ListTools : MonoBehaviour
         {
             GameObject newObject = Instantiate(prefab, transform);
             newObject.GetComponent<Image>().sprite = item.icon;
+            newObject.GetComponent<Item>().type = item.type;
         }
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class HandController : MonoBehaviour
 {
@@ -8,41 +9,44 @@ public class HandController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float moveSpeed = 8f;
     [SerializeField] float grabDistance = 0.1f;
-    [SerializeField] Collider2D faceArea;
     RectTransform handRectTransform;
 
+    Collider2D faceArea;
     Item targetObject;
     bool isHolding = false;
     bool isMoving = false;
+    bool isAnimating = false;
     Vector2 targetPosition;
     Vector2 basedPosition;
     Camera mainCamera;
     Canvas canvas;
+    Transform wrapper;
 
     void Awake()
     {
         main = this;
         canvas = GetComponentInParent<Canvas>();
         mainCamera = Camera.main;
+        wrapper = canvas.GetComponent<RectTransform>();
         handRectTransform = GetComponent<RectTransform>();
         targetPosition = handRectTransform.anchoredPosition;
         basedPosition = handRectTransform.anchoredPosition;
     }
 
+    void Start()
+    {
+        faceArea = BodyManager.main.GetArea();
+    }
+
     void Update()
     {
-        if (isMoving)
+        if (isMoving && !isAnimating)
         {
             handRectTransform.anchoredPosition = Vector2.Lerp(handRectTransform.anchoredPosition, targetPosition, moveSpeed * Time.deltaTime);
 
             if (Vector2.Distance(handRectTransform.anchoredPosition, targetPosition) < 0.1f)
             {
                 isMoving = false;
-            }
-
-            if (targetObject != null && isHolding)
-            {
-                targetObject.GetTransform().position = handRectTransform.position;
             }
 
             if (targetObject != null && Vector2.Distance(handRectTransform.position, targetObject.GetTransform().position) < grabDistance && !isHolding)
@@ -55,7 +59,7 @@ public class HandController : MonoBehaviour
     public void EndTouch(PointerEventData eventData)
     {
         Vector3 touchWorldPos = mainCamera.ScreenToWorldPoint(eventData.position);
-    
+
         if (isHolding && faceArea.OverlapPoint(touchWorldPos))
         {
             ApplyToFace();
@@ -71,7 +75,7 @@ public class HandController : MonoBehaviour
     }
 
     public void SetTargetPosition(PointerEventData eventData)
-    {        
+    {
         if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -93,16 +97,18 @@ public class HandController : MonoBehaviour
 
     void Grab()
     {
-        print("Grab");
         isHolding = true;
+        targetObject.MoveToHand();
     }
 
     void ApplyToFace()
     {
-        print("ApplyToFace");
+        isAnimating = true;
+        BodyManager.main.ApplyingMakeup(targetObject);
         targetObject.ReturnPosition();
         targetObject = null;
         isHolding = false;
+        ReturnHand();
     }
 
     public void ReturnHand()
@@ -110,5 +116,22 @@ public class HandController : MonoBehaviour
         targetPosition = basedPosition;
         isHolding = false;
         isMoving = true;
+        isAnimating = false;
+
+        if (targetObject != null)
+        {
+            targetObject.ReturnPosition();
+            targetObject = null;
+        }
+    }
+
+    public RectTransform GetTransform()
+    {
+        return handRectTransform;
+    }
+
+    public Transform GetWrapper()
+    {
+        return wrapper;
     }
 }

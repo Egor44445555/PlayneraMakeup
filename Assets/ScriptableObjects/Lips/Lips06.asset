@@ -16,3 +16,4 @@ MonoBehaviour:
   image: {fileID: 8831518379824529241, guid: d419dbff33f987448b73c2e68f16e572, type: 3}
   additionalImage: {fileID: 0}
   icon: {fileID: 8831518379824529241, guid: bf7fb7803c6de8341998bf487943c064, type: 3}
+  type: 1

@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &56356491
 RectTransform:
   m_ObjectHideFlags: 0
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 67242380}
   m_Layer: 5
   m_Name: BlushBrush
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26700526f77bccd49a41f654aea27285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameItem: BlushBrush
+  type: 0
   moveSpeed: 8
 --- !u!114 &67242378
 MonoBehaviour:
@@ -348,7 +348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &105362853
 RectTransform:
   m_ObjectHideFlags: 0
@@ -629,6 +629,7 @@ GameObject:
   - component: {fileID: 326351149}
   - component: {fileID: 326351153}
   - component: {fileID: 326351152}
+  - component: {fileID: 326351154}
   - component: {fileID: 326351151}
   - component: {fileID: 326351150}
   m_Layer: 5
@@ -692,8 +693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  grabDistance: 0.5
-  faceArea: {fileID: 1764368635}
+  grabDistance: 0.8
 --- !u!114 &326351152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,6 +732,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 326351148}
   m_CullTransparentMesh: 1
+--- !u!61 &326351154
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326351148}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &337998391
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,7 +870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &420366536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1723,7 +1769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &715325239
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1996,7 +2042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faceArea: {fileID: 1764368635}
-  acneObject: {fileID: 0}
+  acneImage: {fileID: 1498661571}
   lipsImage: {fileID: 420366537}
   shadowsImage: {fileID: 56356492}
   blushImage: {fileID: 105362854}
@@ -2313,7 +2359,7 @@ GameObject:
   - component: {fileID: 1136616850}
   m_Layer: 5
   m_Name: Loofah
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2334,9 +2380,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -16.685974, y: 362.057}
+  m_AnchoredPosition: {x: -125.560974, y: 362.057}
   m_SizeDelta: {x: 217.75, y: 224.4287}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1136616847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2433,7 +2479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26700526f77bccd49a41f654aea27285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameItem: Loofah
+  type: 4
   moveSpeed: 8
 --- !u!1 &1189647462
 GameObject:
@@ -2529,7 +2575,7 @@ GameObject:
   - component: {fileID: 1317761753}
   m_Layer: 5
   m_Name: Cream
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2551,9 +2597,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 66, y: 395.36703}
+  m_AnchoredPosition: {x: 126.77228, y: 395.36707}
   m_SizeDelta: {x: 121.5445, y: 291.0454}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1317761750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2622,7 +2668,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -2650,7 +2696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26700526f77bccd49a41f654aea27285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameItem: Cream
+  type: 0
   moveSpeed: 8
 --- !u!1 &1342132951
 GameObject:
@@ -3011,7 +3057,7 @@ GameObject:
   - component: {fileID: 1485405563}
   m_Layer: 5
   m_Name: EyeBrush
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3047,7 +3093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26700526f77bccd49a41f654aea27285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameItem: EyeBrush
+  type: 0
   moveSpeed: 8
 --- !u!114 &1485405561
 MonoBehaviour:
@@ -3144,6 +3190,7 @@ GameObject:
   - component: {fileID: 1498661570}
   - component: {fileID: 1498661572}
   - component: {fileID: 1498661571}
+  - component: {fileID: 1498661573}
   m_Layer: 5
   m_Name: Acne
   m_TagString: Untagged
@@ -3208,6 +3255,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1498661569}
   m_CullTransparentMesh: 1
+--- !u!225 &1498661573
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498661569}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1521052194
 GameObject:
   m_ObjectHideFlags: 0
