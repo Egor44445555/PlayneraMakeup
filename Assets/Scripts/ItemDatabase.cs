@@ -7,26 +7,26 @@ public class ItemDatabase : MonoBehaviour
     public static ItemDatabase main;
     [SerializeField] List<ItemData> Lipstick = new List<ItemData>();
     [SerializeField] List<ItemData> Blush = new List<ItemData>();
-    [SerializeField] List<ItemData> Colors = new List<ItemData>();
+    [SerializeField] List<ItemData> Shadows = new List<ItemData>();
 
     void Awake()
     {
         main = this;
     }
 
-    public List<ItemData> GetItemsData(string type)
+    public List<ItemData> GetItemsData(ItemType type)
     {
-        if (type == "Lips")
+        if (type == ItemType.Lips)
         {
             return Lipstick;
         }
-        else if (type == "Blush")
+        else if (type == ItemType.Blush)
         {
             return Blush;
         }
-        else if (type == "Colors")
+        else if (type == ItemType.Shadows)
         {
-            return Colors;
+            return Shadows;
         }
         else
         {
@@ -46,9 +46,9 @@ public class ItemDatabase : MonoBehaviour
         {
             array = Blush;
         }
-        else if (type == ItemType.Colors)
+        else if (type == ItemType.Shadows)
         {
-            array = Colors;
+            array = Shadows;
         }
 
         return array.Find(item => item.itemName == nameItem);

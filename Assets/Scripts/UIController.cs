@@ -12,16 +12,22 @@ public class UIController : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        HandController.main.SetTargetPosition(eventData);
+        if (!HandController.main.IsAnimating())
+        {
+            HandController.main.SetTargetPosition(eventData.position);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        HandController.main.SetTargetPosition(eventData);
+        if (!HandController.main.IsAnimating())
+        {
+            HandController.main.SetTargetPosition(eventData.position);
+        }
     }
     
     public void OnPointerUp(PointerEventData eventData)
     {
-        HandController.main.EndTouch(eventData);
+        HandController.main.EndTouch(eventData.position);
     }
 }

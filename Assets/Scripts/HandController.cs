@@ -9,8 +9,14 @@ public class HandController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float moveSpeed = 8f;
     [SerializeField] float grabDistance = 0.1f;
-    RectTransform handRectTransform;
+    [SerializeField] Image imageHand;
+    [SerializeField] Sprite handSprite;
+    [SerializeField] Sprite handGrabSprite;
+    [SerializeField] GameObject finger;
+    [SerializeField] GameObject eyeBrush;
+    [SerializeField] GameObject blushBrush;
 
+    RectTransform handRectTransform;
     Collider2D faceArea;
     Item targetObject;
     bool isHolding = false;
@@ -21,6 +27,7 @@ public class HandController : MonoBehaviour
     Camera mainCamera;
     Canvas canvas;
     Transform wrapper;
+    Transform imageTransform;
 
     void Awake()
     {
@@ -31,6 +38,7 @@ public class HandController : MonoBehaviour
         handRectTransform = GetComponent<RectTransform>();
         targetPosition = handRectTransform.anchoredPosition;
         basedPosition = handRectTransform.anchoredPosition;
+        imageTransform = imageHand.GetComponent<Transform>();
     }
 
     void Start()
@@ -56,9 +64,15 @@ public class HandController : MonoBehaviour
         }
     }
 
-    public void EndTouch(PointerEventData eventData)
+    public void EndTouch(Vector2 position, bool local = false)
     {
-        Vector3 touchWorldPos = mainCamera.ScreenToWorldPoint(eventData.position);
+        Vector3 touch = position;        
+        Vector3 touchWorldPos = mainCamera.ScreenToWorldPoint(position);
+
+        if (!local)
+        {
+            touch = touchWorldPos;
+        }
 
         if (isHolding && faceArea.OverlapPoint(touchWorldPos))
         {
@@ -66,21 +80,26 @@ public class HandController : MonoBehaviour
             return;
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(touchWorldPos, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(touch, Vector2.zero);
 
-        if (hit.collider != null && hit.collider.TryGetComponent<Item>(out Item item))
+        if (hit.collider != null && hit.collider.TryGetComponent<Item>(out Item item) && !isHolding)
         {
             targetObject = item;
+            // targetObject.GetTransform().SetParent(imageTransform);
+            if (item.type == ItemType.Blush || item.type == ItemType.Shadows)
+            {
+                ApplyToFace();
+            }
         }
     }
 
-    public void SetTargetPosition(PointerEventData eventData)
+    public void SetTargetPosition(Vector2 position, bool local = false)
     {
-        if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
+        if (canvas.renderMode == RenderMode.ScreenSpaceCamera && !local)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 handRectTransform.parent as RectTransform,
-                eventData.position,
+                position,
                 canvas.worldCamera,
                 out Vector2 localPosition
             );
@@ -89,8 +108,8 @@ public class HandController : MonoBehaviour
         }
         else
         {
-            targetPosition = eventData.position;
-        }
+            targetPosition = position;
+        }      
 
         isMoving = true;
     }
@@ -98,17 +117,15 @@ public class HandController : MonoBehaviour
     void Grab()
     {
         isHolding = true;
+        imageHand.sprite = handGrabSprite;
+        finger.SetActive(true);
         targetObject.MoveToHand();
     }
 
     void ApplyToFace()
     {
         isAnimating = true;
-        BodyManager.main.ApplyingMakeup(targetObject);
-        targetObject.ReturnPosition();
-        targetObject = null;
-        isHolding = false;
-        ReturnHand();
+        AnimationsHand.main.StartAnimation(targetObject);
     }
 
     public void ReturnHand()
@@ -117,6 +134,8 @@ public class HandController : MonoBehaviour
         isHolding = false;
         isMoving = true;
         isAnimating = false;
+        imageHand.sprite = handSprite;
+        finger.SetActive(false);
 
         if (targetObject != null)
         {
@@ -133,5 +152,10 @@ public class HandController : MonoBehaviour
     public Transform GetWrapper()
     {
         return wrapper;
+    }
+
+    public bool IsAnimating()
+    {
+        return isAnimating;
     }
 }

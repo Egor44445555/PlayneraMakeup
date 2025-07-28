@@ -10,20 +10,25 @@ public class BodyManager : MonoBehaviour
     [SerializeField] Collider2D faceArea;
     [SerializeField] Image acneImage;
     [SerializeField] Image lipsImage;
-    [SerializeField] Image shadowsImage;
+    [SerializeField] Image shadowsImageLeft;
+    [SerializeField] Image shadowsImageRight;
     [SerializeField] Image blushImage;
 
-    bool acne = true;
-    string lips = "";
-    string shadows = "";
-    string blush = "";
-    float fadeDuration = 1f;
+    float fadeDuration = 0.3f;
     CanvasGroup acneCanvasGroup;
+    CanvasGroup lipsCanvasGroup;
+    CanvasGroup blushCanvasGroup;
+    CanvasGroup shadowLeftCanvasGroup;
+    CanvasGroup shadowRightCanvasGroup;
 
     void Awake()
     {
         main = this;
         acneCanvasGroup = acneImage.GetComponent<CanvasGroup>();
+        lipsCanvasGroup = lipsImage.GetComponent<CanvasGroup>();
+        blushCanvasGroup = blushImage.GetComponent<CanvasGroup>();
+        shadowLeftCanvasGroup = shadowsImageLeft.GetComponent<CanvasGroup>();
+        shadowRightCanvasGroup = shadowsImageLeft.GetComponent<CanvasGroup>();
     }
 
     public Collider2D GetArea()
@@ -46,53 +51,81 @@ public class BodyManager : MonoBehaviour
         if (item.type == ItemType.Lips)
         {
             SetComponent(item, lipsImage);
+            StartCoroutine(FadeIn(lipsCanvasGroup));
         }
 
         if (item.type == ItemType.Shadows)
         {
-            SetComponent(item, shadowsImage);
+            SetComponent(item, shadowsImageLeft, shadowsImageRight);
+            StartCoroutine(FadeIn(shadowLeftCanvasGroup));
+            StartCoroutine(FadeIn(shadowRightCanvasGroup));
         }
 
-         if (item.type == ItemType.Blush)
+        if (item.type == ItemType.Blush)
         {
             SetComponent(item, blushImage);
+            StartCoroutine(FadeIn(blushCanvasGroup));
         }
     }
 
-    void SetComponent(Item item, Image image)
+    void SetComponent(Item item, Image image, Image additionalImage = null)
     {
         ItemData itemData = ItemDatabase.main.GetItemData(item.type, item.itemName);
-        image.gameObject.SetActive(true);
-        image.sprite = itemData.image;
+
+        if (itemData != null)
+        {
+            image.gameObject.SetActive(true);
+            image.sprite = itemData.image;
+
+            if (additionalImage != null)
+            {
+                additionalImage.gameObject.SetActive(true);
+                additionalImage.sprite = itemData.additionalImage;
+            }
+        }
     }
 
     public void CreamApply()
     {
-        StartCoroutine(FadeOutAcne());
+        StartCoroutine(FadeOut(acneCanvasGroup));
     }
 
-    IEnumerator FadeOutAcne()
+    IEnumerator FadeOut(CanvasGroup canvasGroup)
     {
         float elapsedTime = 0f;
-        float startAlpha = acneCanvasGroup.alpha;
+        float startAlpha = canvasGroup.alpha;
 
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            acneCanvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, elapsedTime / fadeDuration);
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, elapsedTime / fadeDuration);
             yield return null;
         }
 
-        acneCanvasGroup.alpha = 0f;
+        canvasGroup.alpha = 0f;
+    }
+
+    IEnumerator FadeIn(CanvasGroup canvasGroup)
+    {
+        float elapsedTime = 1f;
+        float startAlpha = canvasGroup.alpha;
+        canvasGroup.alpha = 0f;
+
+        while (elapsedTime > 0f)
+        {
+            elapsedTime -= Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, elapsedTime / fadeDuration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 1f;
     }
 
     public void Clear()
     {
-        lips = "";
-        shadows = "";
-        blush = "";
         lipsImage.gameObject.SetActive(false);
-        shadowsImage.gameObject.SetActive(false);
+        shadowsImageLeft.gameObject.SetActive(false);
+        shadowsImageRight.gameObject.SetActive(false);
         blushImage.gameObject.SetActive(false);
     }
 }

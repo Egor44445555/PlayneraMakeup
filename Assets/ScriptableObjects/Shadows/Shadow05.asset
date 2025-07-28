@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f0257d5b6d2d8418c4ef2383f6c6ba, type: 3}
+  m_Name: Shadow05
+  m_EditorClassIdentifier: 
+  itemName: Shadow05
+  image: {fileID: 491726396686365125, guid: 939a7332ec3850c4c9c9c33b8b3d9b5a, type: 3}
+  additionalImage: {fileID: -1542881422037610578, guid: 939a7332ec3850c4c9c9c33b8b3d9b5a, type: 3}
+  icon: {fileID: 491726396686365125, guid: 2e03366d819688d49b0182cb31f84bc8, type: 3}
+  type: 3

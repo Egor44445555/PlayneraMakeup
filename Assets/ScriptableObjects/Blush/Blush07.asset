@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f0257d5b6d2d8418c4ef2383f6c6ba, type: 3}
+  m_Name: Blush07
+  m_EditorClassIdentifier: 
+  itemName: Blush07
+  image: {fileID: -1254107489049226150, guid: 3fe24f6be5b008048a2b8edcd1c29e54, type: 3}
+  additionalImage: {fileID: 0}
+  icon: {fileID: -1254107489049226150, guid: 5f8030605170deb4e80515d2dcfd685d, type: 3}
+  type: 2

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7b2e8d1f312d7cc40b6e5d86a71b2e01
+guid: 4e1da9a89d6bc534cb8bef5f4a6c8ebf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 140433255743585067
-    second: Hand_0
+      213: 4807957845301852938
+    second: HandGrab_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -98,14 +98,14 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Android
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 47
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hand_0
+      name: HandGrab_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 6
-        width: 102
-        height: 243
+        x: 47
+        y: 11
+        width: 141
+        height: 404
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b2b7f335d4be2f100800000000000000
-      internalID: 140433255743585067
+      spriteID: a0bf448cf2c49b240800000000000000
+      internalID: 4807957845301852938
       vertices: []
       indices: 
       edges: []
@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      HandGrab_0: 4807957845301852938
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

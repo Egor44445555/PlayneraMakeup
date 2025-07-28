@@ -6,7 +6,9 @@ public class Item : MonoBehaviour
 {
     public ItemType type;
     public string itemName;
-    [SerializeField] float moveSpeed = 8f;
+    public bool portablePbject = true;
+
+    [SerializeField] float moveSpeed = 8f;    
     Vector2 basedanchoredPosition;
     Vector2 basedPosition;
     RectTransform transformObject;
@@ -51,7 +53,7 @@ public class Item : MonoBehaviour
             }
         }
 
-        if (moveToHand)
+        if (moveToHand && portablePbject)
         {
             if (isListItem)
             {
