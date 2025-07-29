@@ -13,8 +13,9 @@ public class BodyManager : MonoBehaviour
     [SerializeField] Image shadowsImageLeft;
     [SerializeField] Image shadowsImageRight;
     [SerializeField] Image blushImage;
+    [SerializeField] float fadeOutDuration = 0.3f;
+    [SerializeField] float fadeInDuration = 0.3f;
 
-    float fadeDuration = 0.3f;
     CanvasGroup acneCanvasGroup;
     CanvasGroup lipsCanvasGroup;
     CanvasGroup blushCanvasGroup;
@@ -28,7 +29,7 @@ public class BodyManager : MonoBehaviour
         lipsCanvasGroup = lipsImage.GetComponent<CanvasGroup>();
         blushCanvasGroup = blushImage.GetComponent<CanvasGroup>();
         shadowLeftCanvasGroup = shadowsImageLeft.GetComponent<CanvasGroup>();
-        shadowRightCanvasGroup = shadowsImageLeft.GetComponent<CanvasGroup>();
+        shadowRightCanvasGroup = shadowsImageRight.GetComponent<CanvasGroup>();
     }
 
     public Collider2D GetArea()
@@ -57,8 +58,6 @@ public class BodyManager : MonoBehaviour
         if (item.type == ItemType.Shadows)
         {
             SetComponent(item, shadowsImageLeft, shadowsImageRight);
-            StartCoroutine(FadeIn(shadowLeftCanvasGroup));
-            StartCoroutine(FadeIn(shadowRightCanvasGroup));
         }
 
         if (item.type == ItemType.Blush)
@@ -66,6 +65,22 @@ public class BodyManager : MonoBehaviour
             SetComponent(item, blushImage);
             StartCoroutine(FadeIn(blushCanvasGroup));
         }
+    }
+
+    public void ShowLeftShadow()
+    {       
+        StartCoroutine(FadeIn(shadowLeftCanvasGroup));
+    }
+
+    public void ShowRightShadow()
+    {
+        StartCoroutine(FadeIn(shadowRightCanvasGroup));
+    }
+
+    public void HideShadows()
+    {
+        shadowLeftCanvasGroup.alpha = 0f;
+        shadowRightCanvasGroup.alpha = 0f;
     }
 
     void SetComponent(Item item, Image image, Image additionalImage = null)
@@ -95,10 +110,10 @@ public class BodyManager : MonoBehaviour
         float elapsedTime = 0f;
         float startAlpha = canvasGroup.alpha;
 
-        while (elapsedTime < fadeDuration)
+        while (elapsedTime < fadeOutDuration)
         {
             elapsedTime += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, elapsedTime / fadeDuration);
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, elapsedTime / fadeOutDuration);
             yield return null;
         }
 
@@ -107,14 +122,13 @@ public class BodyManager : MonoBehaviour
 
     IEnumerator FadeIn(CanvasGroup canvasGroup)
     {
-        float elapsedTime = 1f;
-        float startAlpha = canvasGroup.alpha;
+        float elapsedTime = 0f;
         canvasGroup.alpha = 0f;
 
-        while (elapsedTime > 0f)
-        {
-            elapsedTime -= Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, elapsedTime / fadeDuration);
+        while (elapsedTime < fadeInDuration)
+        {            
+            elapsedTime += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeInDuration);
             yield return null;
         }
 

@@ -39,6 +39,7 @@ public class Item : MonoBehaviour
     {
         if (returnPosition)
         {
+            transform.SetParent(parent);
             transformObject.anchoredPosition = Vector2.Lerp(transformObject.anchoredPosition, basedanchoredPosition, moveSpeed * Time.deltaTime);
 
             if (Vector2.Distance(transformObject.position, basedPosition) < 0.01f)
@@ -56,23 +57,8 @@ public class Item : MonoBehaviour
         if (moveToHand && portablePbject)
         {
             if (isListItem)
-            {
-                transform.SetParent(HandController.main.GetWrapper());
+            {                
                 transform.localScale = Vector3.one;
-            }
-            
-            if (Vector2.Distance(HandController.main.GetTransform().position, transformObject.position) <= 0.2f)
-            {
-                itemCaptured = true;
-            }
-
-            if (itemCaptured)
-            {
-                transformObject.position = HandController.main.GetTransform().position;
-            }
-            else
-            {
-                transformObject.position = Vector2.Lerp(transformObject.position, HandController.main.GetTransform().position, moveSpeed * Time.deltaTime);
             }
         }
     }
@@ -85,6 +71,11 @@ public class Item : MonoBehaviour
     public RectTransform GetTransform()
     {
         return transformObject;
+    }
+
+    public Transform GetParent()
+    {
+        return parent;
     }
 
     void SaveBasePosition()

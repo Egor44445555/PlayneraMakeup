@@ -10,6 +10,7 @@ public class HandController : MonoBehaviour
     [SerializeField] float moveSpeed = 8f;
     [SerializeField] float grabDistance = 0.1f;
     [SerializeField] Image imageHand;
+    [SerializeField] Transform itemPoint;
     [SerializeField] Sprite handSprite;
     [SerializeField] Sprite handGrabSprite;
     [SerializeField] GameObject finger;
@@ -85,9 +86,13 @@ public class HandController : MonoBehaviour
         if (hit.collider != null && hit.collider.TryGetComponent<Item>(out Item item) && !isHolding)
         {
             targetObject = item;
-            // targetObject.GetTransform().SetParent(imageTransform);
-            if (item.type == ItemType.Blush || item.type == ItemType.Shadows)
+
+            if (item.type == ItemType.Blush || item.type == ItemType.Shadows && blushBrush != null && eyeBrush != null)
             {
+                blushBrush.SetActive(item.type == ItemType.Blush);
+                eyeBrush.SetActive(item.type == ItemType.Shadows);
+
+                Grab(false);
                 ApplyToFace();
             }
         }
@@ -114,16 +119,22 @@ public class HandController : MonoBehaviour
         isMoving = true;
     }
 
-    void Grab()
+    void Grab(bool portablePbject = true)
     {
         isHolding = true;
         imageHand.sprite = handGrabSprite;
         finger.SetActive(true);
-        targetObject.MoveToHand();
+
+        if (portablePbject)
+        {
+            targetObject.MoveToHand();
+            targetObject.GetTransform().SetParent(imageTransform);
+            targetObject.GetTransform().position = itemPoint.position;
+        }        
     }
 
     void ApplyToFace()
-    {
+    {        
         isAnimating = true;
         AnimationsHand.main.StartAnimation(targetObject);
     }
@@ -131,8 +142,10 @@ public class HandController : MonoBehaviour
     public void ReturnHand()
     {
         targetPosition = basedPosition;
-        isHolding = false;
         isMoving = true;
+        blushBrush.SetActive(false);
+        eyeBrush.SetActive(false);        
+        isHolding = false;
         isAnimating = false;
         imageHand.sprite = handSprite;
         finger.SetActive(false);
