@@ -15,7 +15,7 @@ public class HandController : MonoBehaviour
     [SerializeField] Sprite handGrabSprite;
     [SerializeField] GameObject finger;
     [SerializeField] GameObject eyeBrush;
-    [SerializeField] GameObject blushBrush;
+    [SerializeField] GameObject blushBrush;    
 
     RectTransform handRectTransform;
     Collider2D faceArea;
@@ -75,7 +75,7 @@ public class HandController : MonoBehaviour
             touch = touchWorldPos;
         }
 
-        if (isHolding && faceArea.OverlapPoint(touchWorldPos))
+        if (isHolding && faceArea.OverlapPoint(touchWorldPos) && !isAnimating)
         {
             ApplyToFace();
             return;
@@ -85,15 +85,17 @@ public class HandController : MonoBehaviour
 
         if (hit.collider != null && hit.collider.TryGetComponent<Item>(out Item item) && !isHolding)
         {
+            // Apply item
             targetObject = item;
 
+            // Start animating palette
             if (item.type == ItemType.Blush || item.type == ItemType.Shadows && blushBrush != null && eyeBrush != null)
             {
                 blushBrush.SetActive(item.type == ItemType.Blush);
                 eyeBrush.SetActive(item.type == ItemType.Shadows);
 
                 Grab(false);
-                ApplyToFace();
+                AnimationsHand.main.StartAnimationBrush(targetObject);
             }
         }
     }
@@ -121,6 +123,7 @@ public class HandController : MonoBehaviour
 
     void Grab(bool portablePbject = true)
     {
+        // Switching the hand state to grabbed
         isHolding = true;
         imageHand.sprite = handGrabSprite;
         finger.SetActive(true);
@@ -134,17 +137,24 @@ public class HandController : MonoBehaviour
     }
 
     void ApplyToFace()
-    {        
+    {
+        // Using an item on a key object
         isAnimating = true;
         AnimationsHand.main.StartAnimation(targetObject);
+
+        if (targetObject != null && targetObject.GetParticleObject() != null)
+        {
+            targetObject.GetParticleObject().SetActive(true);
+        }
     }
 
     public void ReturnHand()
     {
+        // Returning the hand to the starting position
         targetPosition = basedPosition;
         isMoving = true;
         blushBrush.SetActive(false);
-        eyeBrush.SetActive(false);        
+        eyeBrush.SetActive(false);
         isHolding = false;
         isAnimating = false;
         imageHand.sprite = handSprite;

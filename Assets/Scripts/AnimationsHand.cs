@@ -10,6 +10,7 @@ public class AnimationsHand : MonoBehaviour
     [SerializeField] float pointDistance = 0.5f;
     [SerializeField] float palettePointOffsetX = 0f;
     [SerializeField] float palettePointOffsetY = 0f;
+    [SerializeField] Transform middlePoint;
 
     int currentIndex = 0;
     float basedMoveSpeed = 1000f;
@@ -24,6 +25,8 @@ public class AnimationsHand : MonoBehaviour
     bool paletteAnimation = false;
     bool showLeftShadow = false;
     bool showRightShadow = false;
+    Vector2 _lastPosition;
+    float maxSpeed;
 
     void Awake()
     {
@@ -38,6 +41,8 @@ public class AnimationsHand : MonoBehaviour
 
     void Update()
     {
+        Vector2 previousPosition = handTransform.anchoredPosition;
+
         if (isMoving && animation != null)
         {
             Vector2 movePoint;
@@ -53,6 +58,7 @@ public class AnimationsHand : MonoBehaviour
 
             if (paletteAnimation)
             {
+                // Brush movement towards the palette
                 movePoint = palettePoint;
 
                 Vector2 handLocalPos;
@@ -63,13 +69,17 @@ public class AnimationsHand : MonoBehaviour
                     out handLocalPos
                 );
 
-                if (Vector2.Distance(handLocalPos, palettePoint) < 0.1f)
+                float currentSpeed = Vector2.Distance(previousPosition, handTransform.anchoredPosition) / Time.deltaTime;
+                maxSpeed = Mathf.Max(maxSpeed, currentSpeed);
+
+                if (Vector2.Distance(handLocalPos, palettePoint) < 9f && currentSpeed < 0.001f)
                 {
                     paletteAnimation = false;
                 }
             }
             else
             {
+                // Movement by animation points of an object
                 movePoint = animation.path[currentIndex].anchoredPosition;
             }
 
@@ -106,9 +116,11 @@ public class AnimationsHand : MonoBehaviour
                 }
             }
 
+            // Show shadows at specified points
+
             if (animation.type == ItemType.Shadows && currentIndex == animation.startPositionAnimation && !showLeftShadow)
             {
-                BodyManager.main.ShowLeftShadow();            
+                BodyManager.main.ShowLeftShadow();
                 showLeftShadow = true;
             }
 
@@ -130,21 +142,30 @@ public class AnimationsHand : MonoBehaviour
     {
         targetObject = item;
         isMoving = true;
+        paletteAnimation = false;
         animation = animations.FirstOrDefault(anim => anim.type == item.type);
 
-        if (item.type == ItemType.Blush || item.type == ItemType.Shadows)
+        if (animation != null && animation.path.Count > 0)
         {
-            BodyManager.main.HideShadows();    
-            RectTransform targetRect = targetObject.GetTransform();
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.GetComponent<RectTransform>(),
-                targetRect.position,
-                null,
-                out palettePoint
-            );
-            palettePoint = new Vector2(palettePoint.x + palettePointOffsetX, palettePoint.y + palettePointOffsetY);
-            paletteAnimation = true;
+            currentIndex = 0;
         }
+    }
+
+    public void StartAnimationBrush(Item item)
+    {
+        targetObject = item;
+        animation = animations.FirstOrDefault(anim => anim.type == item.type);
+        isMoving = true;
+        BodyManager.main.HideShadows();
+        RectTransform targetRect = targetObject.GetTransform();
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.GetComponent<RectTransform>(),
+            targetRect.position,
+            null,
+            out palettePoint
+        );
+        palettePoint = new Vector2(palettePoint.x + palettePointOffsetX, palettePoint.y + palettePointOffsetY);
+        paletteAnimation = true;
 
         if (animation != null && animation.path.Count > 0)
         {

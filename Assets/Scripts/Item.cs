@@ -9,6 +9,8 @@ public class Item : MonoBehaviour
     public bool portablePbject = true;
 
     [SerializeField] float moveSpeed = 8f;    
+    [SerializeField] GameObject particleObject;
+
     Vector2 basedanchoredPosition;
     Vector2 basedPosition;
     RectTransform transformObject;
@@ -78,6 +80,11 @@ public class Item : MonoBehaviour
         return parent;
     }
 
+    public GameObject GetParticleObject()
+    {
+        return particleObject;
+    }    
+
     void SaveBasePosition()
     {
         basedanchoredPosition = transformObject.anchoredPosition;
@@ -91,7 +98,7 @@ public class Item : MonoBehaviour
             transform.SetParent(parent);
             transform.localScale = Vector3.one;
             transform.localRotation = Quaternion.identity;
-            
+
             Canvas.ForceUpdateCanvases();
             SaveBasePosition();
         }
@@ -99,6 +106,11 @@ public class Item : MonoBehaviour
         returnPosition = true;
         itemCaptured = false;
         moveToHand = false;
+
+        if (particleObject != null)
+        {
+            particleObject.SetActive(false);
+        }
     }
 
     public void MoveToHand()

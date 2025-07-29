@@ -137,9 +137,9 @@ public class BodyManager : MonoBehaviour
 
     public void Clear()
     {
-        lipsImage.gameObject.SetActive(false);
-        shadowsImageLeft.gameObject.SetActive(false);
-        shadowsImageRight.gameObject.SetActive(false);
-        blushImage.gameObject.SetActive(false);
+        StartCoroutine(FadeOut(shadowLeftCanvasGroup));
+        StartCoroutine(FadeOut(shadowRightCanvasGroup));
+        StartCoroutine(FadeOut(blushCanvasGroup));
+        StartCoroutine(FadeOut(lipsCanvasGroup));
     }
 }
